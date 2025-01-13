@@ -1,0 +1,258 @@
+run:
+    env: dev
+server:
+        port: 9100
+
+spring:
+        application:
+                      name: cloud-general
+                      admin:
+                            enabled: true
+                            jmx-name: org.springframework.boot:type=Admin,name=SpringApplication
+        main:
+              allow-bean-definition-overriding: true
+        jmx:
+            unique-names: true
+        redis:
+               kv:
+                   database: 0
+                   host: 10.96.91.192
+                   port: 6379
+                   password: ""
+                   timeout: 60000
+                   lettuce:
+                     pool:
+                       max-active: 200
+                       max-wait: 1000
+                       max-idle: 200
+                       min-idle: 100
+               nosql:
+                       database: 0
+                       host: 10.179.133.9
+                       port: 3010
+                       password: ""
+                       timeout: 60000
+                       lettuce:
+                         pool:
+                           max-active: 200
+                           max-wait: 1000
+                           max-idle: 200
+                           min-idle: 100
+        cloud:
+          loadbalancer:
+            retry:
+              enabled: true
+
+eureka:
+        client:
+                serviceUrl:
+                            # 服务器注册/获取服务器的zone
+                            defaultZone: http://127.0.0.1:8761/eureka/
+#                            defaultZone: http://10.96.79.68:8761/eureka/,http://10.96.78.214:8761/eureka/,http://10.96.78.254:8761/eureka/
+                # enabled: false   关闭eureka client
+                # 注册自身到eureka服务器
+                registerWithEureka: true
+                # 表示是否从eureka服务器获取注册信息
+                fetchRegistry: true
+                # 客户端从Eureka Server集群里更新Eureka Server信息的频率
+                eureka-service-url-poll-interval-seconds: 300
+                # 定义从注册中心获取实例注册服务的信息
+                registry-fetch-interval-seconds: 5
+        instance:
+                prefer-ip-address: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+#    port: 8013
+    servlet:
+      context-path: /
+    ssl:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+    hystrix:
+      stream:
+        enabled: true
+  health:
+          elasticsearch:
+                    enabled: false
+          redis:
+            enabled: false
+
+
+## hystrix相关配置
+## hystrix默认会读取classpath下的config.properties文件，application会覆盖config.properties中的属性
+hystrix:
+  threadpool:
+    HavingFeignService:
+      coreSize: 1
+      maximumSize: 2
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: 200
+      queueSizeRejectionThreshold: 100
+    # 指定服务的配置
+    generalGroup:
+      coreSize: 1
+      maximumSize: 2
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: 200
+      queueSizeRejectionThreshold: 100
+    # 这是默认的配置
+    default:
+      coreSize: 20
+      maximumSize: 200
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: 200
+      queueSizeRejectionThreshold: 10
+  command:
+    HavingFeignService:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+            interruptOnTimeout: true
+            interruptOnFutureCancel: false
+          semaphore:
+            maxConcurrentRequests: 2
+    uniCreateKey:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+            interruptOnTimeout: true
+            interruptOnFutureCancel: false
+          semaphore:
+            maxConcurrentRequests: 2
+#    HavingFeignService#create():
+#      execution:
+#        timeout:
+#          enabled: true
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 30000
+#            interruptOnTimeout: true
+#            interruptOnFutureCancel: false
+#          semaphore:
+#            maxConcurrentRequests: 2
+    insertKey:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+            interruptOnTimeout: true
+            interruptOnFutureCancel: false
+          semaphore:
+            maxConcurrentRequests: 2
+    findByIdKey:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+            interruptOnTimeout: true
+            interruptOnFutureCancel: false
+          semaphore:
+            maxConcurrentRequests: 2
+    # 这是默认的配置
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 30000
+            interruptOnTimeout: true
+            interruptOnFutureCancel: false
+          semaphore:
+            maxConcurrentRequests: 2
+      fallback:
+        enabled: true
+        isolation:
+          semaphore: #  如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。默认10
+            maxConcurrentRequests: 2000
+      circuitBreaker:
+        enabled: true
+        forceOpen: false
+        forceClosed: false
+        requestVolumeThreshold: 20
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+      metrics:
+        rollingStats:
+          timeInMilliseconds: 10000
+          numBuckets: 10
+        rollingPercentile:
+          enabled: true
+          timeInMilliseconds: 60000
+          numBuckets: 6
+          bucketSize: 100
+        healthSnapshot:
+          intervalInMilliseconds: 500
+
+
+feign:
+  client:
+    config:
+      default:
+          connectTimeout: 1000000
+          readTimeout: 1200000
+  hystrix:
+    enabled: true
+ribbon:
+  eager-load:
+      enable: true
+#      clients: cloud-having
+#  ConnectTimeout: 150000
+#  ReadTimeout: 150000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  retryableStatusCodes: 500,502,504
+#  retryableStatusCodes: 500,502,504,404
+  OkToRetryOnAllOperations: true
+
+#ribbon:
+#  eager-load:
+#      enable: true
+#      clients: cloud-having
+#  ReadTimeout: 2000
+#cloud-having:
+#  ribbon:
+#    MaxAutoRetries: 2
+#    MaxAutoRetriesNextServer: 2
+#    retryableStatusCodes: 404,500,502,504,408
+#    OkToRetryOnAllOperations: true
+
+
+logging:
+        config: classpath:log4j2-spring.xml
+        path: /Users/lee/logs/spring-boot-aviator
+
+swagger:
+        show:
+              enable: true
+
+
+
+
+
+
+
+
+
+
+
+

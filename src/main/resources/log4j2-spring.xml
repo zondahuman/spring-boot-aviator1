@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" monitorInterval="30">
+
+    <include resource="org/springframework/boot/logging/log4j2/log4j2-file.xml"/>
+
+
+    <Properties>
+        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n</Property>
+        <Property name="patternAll">%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n</Property>
+        <Property name="LOG_PATH">${sys:LOG_PATH}</Property>
+    </Properties>
+
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+            <!--控制台只输出level及以上级别的信息-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${patternAll}</Pattern>
+            </PatternLayout>
+        </Console>
+
+
+        <RollingFile name="generalAppender" fileName="${LOG_PATH}/general.log"
+                     filePattern="${LOG_PATH}/general.log.%d{yyyyMMddHH}">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${patternAll}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy/>
+            </Policies>
+
+        </RollingFile>
+
+
+        <RollingFile name="purposeAppenderpurposeAppender" fileName="${LOG_PATH}/purpose.log"
+                     filePattern="${LOG_PATH}/purpose.log.%d{yyyyMMddHH}">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${patternAll}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+
+
+        <RollingFile name="commonAppenders" fileName="${LOG_PATH}/common.log"
+                     filePattern="${LOG_PATH}/common.log.%d{yyyy-MM-dd}">
+            <!--&lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）&ndash;&gt;-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${patternAll}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+
+        <RollingFile name="errorAppenders" fileName="${LOG_PATH}/error.log"
+                     filePattern="${LOG_PATH}/gather/error.log.%d{yyyy-MM-dd}">
+            <!--&lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）&ndash;&gt;-->
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${patternAll}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="console"></AppenderRef>
+            <AppenderRef ref="generalAppender"></AppenderRef>
+            <AppenderRef ref="purposeAppender"></AppenderRef>
+            <AppenderRef ref="commonAppenders"></AppenderRef>
+            <AppenderRef ref="errorAppenders"></AppenderRef>
+        </Root>
+
+
+
+    </Loggers>
+
+
+</configuration>
