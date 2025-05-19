@@ -1,4 +1,4 @@
-package com.abin.lee.spring.boot.aviator.test;
+package com.abin.lee.aviator.test.uniqueid;
 
 
 public class SnowFlakeGenerateIdWorker {
