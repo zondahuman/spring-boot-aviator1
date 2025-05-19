@@ -148,6 +148,20 @@ public class AviatorEngineTest1 {
         System.out.println(result);
     }
 
+    @Test
+    public void testCompileRule3(){
+        String expression = "a-(b-c)>100";
+//        Expression compiledExp = AviatorEvaluator.compile(expression);
+        Expression compiledExp = AviatorEvaluator.compile(expression, true);
+        Map<String, Object> env = new HashMap<>();
+        env.put("a", 150);
+//        env.put("a", 151);
+        env.put("b", 100);
+        env.put("c", 50);
+        Boolean result = (Boolean) compiledExp.execute(env);
+        System.out.println(result);
+    }
+
 
 
     /**
@@ -178,7 +192,7 @@ public class AviatorEngineTest1 {
         }
     }
 
-    
+
 
 
 
