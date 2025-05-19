@@ -21,9 +21,19 @@ public class AviatorEngineTest1 {
     @Test
     public void testPlusRule(){
         String params = "5 + 3" ;
+//        Long result = (Long) AviatorEvaluator.execute(params);
         Long result = (Long) AviatorEvaluator.execute(params);
         System.out.println(result);
     }
+
+    @Test
+    public void testPlusRule2(){
+        String params = "5.012 + 3.321" ;
+//        Long result = (Long) AviatorEvaluator.execute(params);
+        Double result = (Double) AviatorEvaluator.execute(params);
+        System.out.println(result);
+    }
+
 
     @Test
     public void testMinusRule(){
