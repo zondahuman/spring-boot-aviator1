@@ -1,6 +1,7 @@
 package com.abin.lee.aviator.test.aviator;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.AviatorEvaluatorInstance;
 import com.googlecode.aviator.Expression;
 import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.function.FunctionUtils;
@@ -152,7 +153,9 @@ public class AviatorEngineTest1 {
     public void testCompileRule3(){
         String expression = "a-(b-c)>100";
 //        Expression compiledExp = AviatorEvaluator.compile(expression);
-        Expression compiledExp = AviatorEvaluator.compile(expression, true);
+        AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
+        String cacheKey = "script_algorithm_";
+        Expression compiledExp = instance.compile(cacheKey, expression, true);
         Map<String, Object> env = new HashMap<>();
         env.put("a", 150);
 //        env.put("a", 151);
