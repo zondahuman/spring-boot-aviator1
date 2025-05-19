@@ -1,6 +1,7 @@
 package com.abin.lee.aviator.test.multipath;
 
 import com.jayway.jsonpath.JsonPath;
+import org.apache.dubbo.common.utils.JsonUtils;
 import org.junit.Test;
 
 /**
@@ -59,6 +60,21 @@ public class JsonPathTest {
         System.out.println("roleId2="+roleId2);
         String roleId3 = JsonPath.read(json, "$.data.list[2].roleId");
         System.out.println("roleId3="+roleId3);
+
+        Object totalCount = JsonPath.read(json, "$.data.totalCount");
+        System.out.println("totalCount="+totalCount);
+
+        String roleName1 = JsonPath.read(json, "$.data.list[0].roleName");
+        System.out.println("roleName1="+roleName1);
+        String roleName2 = JsonPath.read(json, "$.data.list[1].roleName");
+        System.out.println("roleName2="+roleName2);
+        String roleName3 = JsonPath.read(json, "$.data.list[2].roleName");
+        System.out.println("roleName3="+roleName3);
+
+        Object list = JsonPath.read(json, "$.data.list");
+        System.out.println("list1="+list);
+        System.out.println("list2="+ JsonUtils.toJson(list));
+
     }
 
 
