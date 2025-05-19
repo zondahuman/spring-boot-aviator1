@@ -7,6 +7,8 @@ import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.function.FunctionUtils;
 import com.googlecode.aviator.runtime.type.AviatorBigInt;
 import com.googlecode.aviator.runtime.type.AviatorObject;
+import org.apache.commons.codec.cli.Digest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -156,10 +158,31 @@ public class AviatorEngineTest1 {
         AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
         String cacheKey = "script_algorithm_plus_minus_times";
         Expression compiledExp = instance.compile(cacheKey, expression, true);
-        instance.invalidateCacheByKey(cacheKey);
+//        instance.invalidateCacheByKey(cacheKey);
+        instance.validate(cacheKey);
         Map<String, Object> env = new HashMap<>();
 //        env.put("a", 150);
         env.put("a", 151);
+        env.put("b", 100);
+        env.put("c", 50);
+        Boolean result = (Boolean) compiledExp.execute(env);
+        System.out.println(result);
+    }
+
+    @Test
+    public void testCompileRule4(){
+        String expression = "a-(b-c)>100";
+//        Expression compiledExp = AviatorEvaluator.compile(expression);
+        AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
+        String cacheKey = "script_algorithm_plus_minus_times";
+        String cacheMd5Key = DigestUtils.md5Hex(cacheKey) ;
+//        Expression compiledExp = instance.compile(cacheKey, expression, true);
+        Expression compiledExp = instance.compile(cacheMd5Key, expression, true);
+//        instance.invalidateCacheByKey(cacheKey);
+        instance.validate(cacheKey);
+        Map<String, Object> env = new HashMap<>();
+        env.put("a", 150);
+//        env.put("a", 151);
         env.put("b", 100);
         env.put("c", 50);
         Boolean result = (Boolean) compiledExp.execute(env);
