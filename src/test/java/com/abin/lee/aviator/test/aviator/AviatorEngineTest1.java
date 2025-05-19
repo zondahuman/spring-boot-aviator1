@@ -156,6 +156,7 @@ public class AviatorEngineTest1 {
         AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
         String cacheKey = "script_algorithm_plus_minus_times";
         Expression compiledExp = instance.compile(cacheKey, expression, true);
+        instance.invalidateCacheByKey(cacheKey);
         Map<String, Object> env = new HashMap<>();
 //        env.put("a", 150);
         env.put("a", 151);
