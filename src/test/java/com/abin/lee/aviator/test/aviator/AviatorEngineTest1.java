@@ -1,10 +1,13 @@
 package com.abin.lee.aviator.test.aviator;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.Expression;
 import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.type.AviatorObject;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +35,16 @@ public class AviatorEngineTest1 {
 //        Long result = (Long) AviatorEvaluator.execute(params);
         Double result = (Double) AviatorEvaluator.execute(params);
         System.out.println(result);
+    }
+
+    @Test
+    public void testPlusRule3(){
+        String params = "5.012 + 3.321" ;
+//        Long result = (Long) AviatorEvaluator.execute(params);
+        Double result = (Double) AviatorEvaluator.execute(params);
+        System.out.println(result);
+        BigDecimal result1 = new BigDecimal(result).setScale(2, RoundingMode.HALF_DOWN);
+        System.out.println(result1);
     }
 
 
@@ -87,6 +100,50 @@ public class AviatorEngineTest1 {
         boolean result = (boolean) AviatorEvaluator.execute(expression, env);
         System.out.println("Expression result: " + result);  // 输出: Expression result: true
     }
+
+
+    /**
+     * 内置函数
+     * https://www.cnblogs.com/kaleidoscope/p/13132315.html
+     */
+    @Test
+    public void testBuiltInFunctionsRule(){
+        String str = "使用Aviator";
+        Map<String,Object> env = new HashMap<>();
+        env.put("str",str);
+        Long length = (Long)AviatorEvaluator.execute("string.length(str)",env);
+        System.out.println(length);
+    }
+
+
+    /**
+     * compile用法
+     * https://www.cnblogs.com/kaleidoscope/p/13132315.html
+     */
+    @Test
+    public void testCompileRule(){
+        String expression = "a-(b-c)>100";
+        Expression compiledExp = AviatorEvaluator.compile(expression);
+        Map<String, Object> env = new HashMap<>();
+        env.put("a", 100.3);
+        env.put("b", 45);
+        env.put("c", -199.100);
+        Boolean result = (Boolean) compiledExp.execute(env);
+        System.out.println(result);
+    }
+
+    @Test
+    public void testCompileRule2(){
+        String expression = "a-(b-c)>100";
+        Expression compiledExp = AviatorEvaluator.compile(expression);
+        Map<String, Object> env = new HashMap<>();
+        env.put("a", 151);
+        env.put("b", 100);
+        env.put("c", 50);
+        Boolean result = (Boolean) compiledExp.execute(env);
+        System.out.println(result);
+    }
+
 
 
     /**
