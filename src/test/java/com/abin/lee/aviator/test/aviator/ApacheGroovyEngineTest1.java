@@ -20,12 +20,13 @@ public class ApacheGroovyEngineTest1 {
 
     public static Object parse(String re, String line) {
 
-        Map<String, Object> map = new HashMap<String, Object>(1);
-        map.put("line", line);
-
-        Script script = new GroovyShell().parse(re);
-        script.setBinding(new Binding(map));
-        return script.run();
+//        Map<String, Object> map = new HashMap<String, Object>(1);
+//        map.put("line", line);
+//
+//        Script script = new GroovyShell().parse(re);
+//        script.setBinding(new Binding(map));
+//        return script.run();
+        return null;
     }
 
 
