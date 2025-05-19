@@ -154,11 +154,11 @@ public class AviatorEngineTest1 {
         String expression = "a-(b-c)>100";
 //        Expression compiledExp = AviatorEvaluator.compile(expression);
         AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
-        String cacheKey = "script_algorithm_";
+        String cacheKey = "script_algorithm_plus_minus_times";
         Expression compiledExp = instance.compile(cacheKey, expression, true);
         Map<String, Object> env = new HashMap<>();
-        env.put("a", 150);
-//        env.put("a", 151);
+//        env.put("a", 150);
+        env.put("a", 151);
         env.put("b", 100);
         env.put("c", 50);
         Boolean result = (Boolean) compiledExp.execute(env);
