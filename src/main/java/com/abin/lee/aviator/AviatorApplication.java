@@ -1,4 +1,4 @@
-package com.abin.lee.spring.boot.aviator;
+package com.abin.lee.aviator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;

@@ -75,11 +75,61 @@ public class JsonPathTest {
         System.out.println("list1="+list);
         System.out.println("list2="+ JsonUtils.toJson(list));
 
+        Object list3 = JsonPath.read(json, "$.*");
+        System.out.println("list3="+list3);
+//        System.out.println("list2="+ JsonUtils.toJson(list));
+
+        Object list4 = JsonPath.read(json, "$.data.array[*]");
+        System.out.println("list4="+list4);
     }
 
 
 
 
+    /**
+     * {
+     *     "code": 0,
+     *     "data": {
+     *         "totalCount": 7,
+     *         "pageSize": 10,
+     *         "totalPage": 1,
+     *         "currPage": 1,
+     *         "list": [
+     *             {
+     *                 "roleId": "1440544989116395521",
+     *                 "roleName": "rolename86918033",
+     *                 "roleDescribe": "角色描述",
+     *                 "createTime": 1632287664000,
+     *                 "permissionList": null,
+     *                 "permissionIdList": null
+     *             },
+     *             {
+     *                 "roleId": "admin",
+     *                 "roleName": "管理员角色",
+     *                 "roleDescribe": "系统内置角色",
+     *                 "createTime": 1588231288000,
+     *                 "permissionList": null,
+     *                 "permissionIdList": null
+     *             },
+     *             {
+     *                 "roleId": "auditor",
+     *                 "roleName": "审计员角色",
+     *                 "roleDescribe": "系统内置角色",
+     *                 "createTime": 1588231217000,
+     *                 "permissionList": null,
+     *                 "permissionIdList": null
+     *             }
+     *         ]
+     *     }
+     * }
+     */
+    @Test
+    public void test2(){
+        String json = "{\"code\":0,\"data\":{\"totalCount\":7,\"pageSize\":10,\"totalPage\":1,\"currPage\":1,\"list\":[{\"roleId\":\"1440544989116395521\",\"roleName\":\"rolename86918033\",\"roleDescribe\":\"角色描述\",\"createTime\":1632287664000,\"permissionList\":null,\"permissionIdList\":null},{\"roleId\":\"admin\",\"roleName\":\"管理员角色\",\"roleDescribe\":\"系统内置角色\",\"createTime\":1588231288000,\"permissionList\":null,\"permissionIdList\":null},{\"roleId\":\"auditor\",\"roleName\":\"审计员角色\",\"roleDescribe\":\"系统内置角色\",\"createTime\":1588231217000,\"permissionList\":null,\"permissionIdList\":null}]}}";
+
+        Object list4 = JsonPath.read(json, "$.data.list[*]");
+        System.out.println("list4="+list4);
+    }
 
 
 }
