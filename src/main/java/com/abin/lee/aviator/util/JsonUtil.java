@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
  */
 public class JsonUtil {
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    public static ObjectMapper objectMapper = new ObjectMapper();
 
     static {
         objectMapper = new ObjectMapper();
