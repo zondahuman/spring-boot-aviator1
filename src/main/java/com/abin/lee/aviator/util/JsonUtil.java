@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
  */
 public class JsonUtil {
 
-    public static ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     static {
         objectMapper = new ObjectMapper();
@@ -80,4 +80,8 @@ public class JsonUtil {
         }
         return null;
     }
+
+
+
+
 }
